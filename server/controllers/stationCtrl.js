@@ -1,7 +1,24 @@
 const Station = require('../data/models/station')
+const TankerKoenig = require('../dataConnector').tankerkoenig
 
-function getStationByLocation (locObj, dist) {
+function getStationByLocation (locObj, dist, options) {
+  options = options || {}
   return Station.findAround({ lng: locObj.lng, lat: locObj.lat }, dist)
+  .then((stations) => {
+    if (!stations) {
+      //  Query API if no station are found\
+      const searchObj = {
+        lat: locObj.lat,
+        lng: locObj.lng,
+        dist: dist,
+        grade: options.grade || 'all',
+        sortVal: options.sortVal || 'dist'
+      }
+      return TankerKoenig.circularSearch(searchObj)
+      // @TODO Save stations locally
+    }
+    return stations
+  })
   .catch((err) => {
     return {
       error: {

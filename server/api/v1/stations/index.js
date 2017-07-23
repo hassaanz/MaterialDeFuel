@@ -1,7 +1,7 @@
 const express = require('express')
 const stationsRouter = express.Router()
 const Station = require('../../../data/models/station')
-const Location = require('../../../data/models/location')
+const StationCtrl = require('../../../controllers/stationCtrl')
 
 stationsRouter.get('/:id', (req, res, next) => {
   Station.findById(req.params.id).exec()
@@ -21,36 +21,13 @@ stationsRouter.get('/:id', (req, res, next) => {
 
 stationsRouter.post('/', (req, res, next) => {
   const station = req.body.station
-  if (!station) {
-    return res.status(400).json({
-      error: {
-        msg: 'INV_REQ',
-        obj: {
-          message: 'No station data in request body',
-          ref: 'POST /stations'
-        },
-        code: 1
-      }
-    })
-  }
-  const locationObj = req.body.location
-  if (!locationObj) {
-    return res.status(400).json({
-      error: {
-        msg: 'INV_REQ',
-        obj: {
-          message: 'No location data for station in request body',
-          ref: 'POST /stations'
-        },
-        code: 1
-      }
-    })
-  }
-  let locInst = new Location(locationObj)
-  return locInst.save()
-  .then((locObj) => {
-    const stationObj = Object.assign({}, req.body.station, { location: locObj })
-    return new Station(stationObj).save()
+  StationCtrl.addStation(station)
+  .then((station) => {
+    res.json(station)
+  })
+  .catch((err) => {
+    const status = err.msg === 'INV_REQ' ? 400 : 500
+    res.status(status).json(err)
   })
 })
 
@@ -62,33 +39,34 @@ stationsRouter.get('/', (req, res, next) => {
   const lat = req.query.lat
   const dist = req.query.dist
   const postCode = req.query.postCode
+  const sortVal = req.query.sort
+  const grade = req.query.grade
+
   if (lng && lat && dist) {
-    Station.findAround({ lng: lng, lat: lat }, dist)
+    StationCtrl.getStationByLocation({ lng: lng, lat: lat }, dist, { grade: grade, sortVal: sortVal })
     .then((stations) => {
       res.json(stations)
     })
     .catch((err) => {
-      res.status(500).json({
-        error: {
-          msg: 'DB_ERR',
-          obj: err,
-          code: 202,
-        }
-      })
+      res.status(500).json(err)
+    })
+  } else if (postCode) {
+    StationCtrl.getStationByPostCode(postCode)
+    .then((stations) => {
+      res.json(stations)
+    })
+    .catch((err) => {
+      res.status(500).json(err)
     })
   } else {
-    Station.find({ 'location.postCode': postCode }).exec()
-    .then((stations) => {
-      res.json(stations)
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: {
-          msg: 'DB_ERR',
-          obj: err,
-          code: 203
+    res.status(400).json({
+      error: {
+        msg: 'INV_REQ',
+        obj: {
+          message: 'No Postcode of location information in request specified',
+          ref: 'GET /stations/'
         }
-      })
+      }
     })
   }
 })
