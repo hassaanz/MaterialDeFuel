@@ -1,6 +1,6 @@
 @import 'base';
 @import '~bootstrap/scss/bootstrap.scss';
-
+@import 'materialIcons.scss';
 // Some best-practice CSS that's useful for most apps
 // Just remove them if they're not what you want
 html {
@@ -21,3 +21,4 @@ body {
 }
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');

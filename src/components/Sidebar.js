@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Drawer from 'material-ui/Drawer'
 import SidebarLink from './SidebarLink'
-import RaisedButton from 'material-ui/RaisedButton'
+import IconButton from 'material-ui/RaisedButton'
 import MenuItem from 'material-ui/MenuItem'
 import AppBar from 'material-ui/AppBar'
 import { IndexLink } from 'react-router'
@@ -19,6 +19,7 @@ class Sidebar extends React.Component {
   }
 
   handleToggle = () => this.setState({ open: !this.state.open })
+  handleClose = () => this.setState({ open: false })
 
   shouldComponentUpdate (nextProps, nextState) {
     return nextState.open !== this.state.open
@@ -27,18 +28,18 @@ class Sidebar extends React.Component {
   render () {
     return (
       <div>
-        <RaisedButton
-          label='Toggle Drawer'
+        <IconButton
+          iconClassName='material-icons'
           onTouchTap={this.handleToggle}
-        />
-        <Drawer open={this.state.open}>
+        >menu</IconButton>
+        <Drawer open={this.state.open} docked={false}>
           <AppBar title='Menu' onLeftIconButtonTouchTap={this.handleToggle} />
-          <IndexLink to='/'>
+          <IndexLink to='/' onClick={this.handleClose}>
             <MenuItem>Home</MenuItem>
           </IndexLink>
           {
             this.props.routes.map((route, ind) => (
-              <SidebarLink key={ind} label={route.name} active={route.active} />
+              <SidebarLink key={ind} label={route.name} active={route.active} onTouchTap={this.handleClose} />
             ))
           }
         </Drawer>
