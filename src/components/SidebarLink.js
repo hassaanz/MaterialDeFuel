@@ -4,8 +4,8 @@ import MenuItem from 'material-ui/MenuItem'
 import { Link } from 'react-router'
 
 const SidebarLink = (props) => (
-  <Link to={`/${props.label}`} onClick={props.onTouchTap} active={props.active}>
-    <MenuItem primaryText={props.label} />
+  <Link to={`/${props.label}`} onClick={props.onTouchTap}>
+    <MenuItem primaryText={props.label} checked={props.active} />
   </Link>
 )
 

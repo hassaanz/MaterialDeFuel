@@ -47,12 +47,13 @@ class MapControls extends React.Component {
       findStationsPoint
     } = this.props
     if (this.props.searchOpt === 'zip') {
-      findStationsPostCode()
+      findStationsPostCode(this.props.zipSearch)
     } else if (this.props.searchOpt === 'position') {
       const {
         lat,
         lng
       } = this.props.activePos
+      console.log('sending request to find stations by point:', { lat, lng })
       findStationsPoint({ lat, lng })
     }
   }

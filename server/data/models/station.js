@@ -21,7 +21,6 @@ const StationSchema = mongoose.Schema({
     diesel: Number,
   }
 })
-let Station = mongoose.model('Station', StationSchema)
 
 /**
  * Creates a Station modal instance using a json  object
@@ -35,7 +34,7 @@ let Station = mongoose.model('Station', StationSchema)
  * @param {Number}  locObj.lat  The latitude value of location
  * @return {Object}        Mongoose modal instance of location
  */
-Location.statics.fromObj = (stationObj) => {
+StationSchema.statics.fromObj = function (stationObj) {
   if (!stationObj.loc) {
     return Promise.reject(new Error('Station object must have location data'))
   }
@@ -74,12 +73,15 @@ Location.statics.fromObj = (stationObj) => {
  * @param {Number} pointObj.lat The latitude value for the point
  * @param {Number} radius The radius distance for the search in kilometers
  */
-Station.statics.findAround = (pointObj, radius) => {
+StationSchema.statics.findAround = function (pointObj, radius) {
+  console.log('In findAround:', pointObj, radius)
   radius = radius || 8
   // we need to convert the distance to metres
   const metreDistance = radius * 1000
   if (pointObj && pointObj.lng && pointObj.lat) {
-    return this.find({
+    console.log('Seraching for point:', pointObj, Station.find, this)
+
+    return Station.find({
       loc: {
         $near: {
           $geometry: {
@@ -89,9 +91,11 @@ Station.statics.findAround = (pointObj, radius) => {
         },
         $maxDistance: metreDistance
       }
-    }).exec()
+    })
   } else {
     return Promise.reject(new Error('Invalid Point object'))
   }
 }
+
+const Station = mongoose.model('Station', StationSchema)
 module.exports = Station

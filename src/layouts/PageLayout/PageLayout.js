@@ -7,9 +7,9 @@ export const PageLayout = ({ children }) => (
   <div className='container-fluid'>
     <div className='row'>
       <div className='col-sm-12'>
-        <Sidebar routes={[{ name:'counter', active: true }, { name: 'map', active: false }]} />
+        <Sidebar routes={[{ name: 'Map', active: false }]} />
         <div className=''>
-          <h1 className='text-center'>Brum Brum Fuel Info</h1>
+          <h1 className='text-center'>Fuel Station Map Search</h1>
           {children}
         </div>
       </div>

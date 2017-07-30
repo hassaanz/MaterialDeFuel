@@ -2,11 +2,14 @@ const Station = require('../data/models/station')
 const TankerKoenig = require('../dataConnector').tankerkoenig
 
 function getStationByLocation (locObj, dist, options) {
+  // console.log('Searching stations...')
   options = options || {}
   return Station.findAround({ lng: locObj.lng, lat: locObj.lat }, dist)
   .then((stations) => {
+    // console.log('Reponse from db:', stations)
     if (!stations) {
-      //  Query API if no station are found\
+      // console.log('No Stations foudn in db trying tankerkoenig')
+      //  Query API if no station are found
       const searchObj = {
         lat: locObj.lat,
         lng: locObj.lng,
@@ -17,9 +20,11 @@ function getStationByLocation (locObj, dist, options) {
       return TankerKoenig.circularSearch(searchObj)
       // @TODO Save stations locally
     }
+    // console.log('No Response from db')
     return stations
   })
   .catch((err) => {
+    // console.log('ERROR HANDLER', err)
     return {
       error: {
         msg: 'DB_ERR',
