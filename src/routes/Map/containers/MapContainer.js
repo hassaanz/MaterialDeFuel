@@ -1,5 +1,16 @@
 import { connect } from 'react-redux'
-import { setMapDefault, setMapZoom, findStationsPoint, findStationsPostCode } from '../modules/map'
+import {
+  setMapDefault,
+  setMapCenter,
+  setMapZoom,
+  findStationsPoint,
+  findStationsPostCode,
+  centerToPosition,
+  mapClick,
+  getUserPos,
+  onSearchOptChange,
+  setZipSearch
+} from '../modules/map'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -13,10 +24,16 @@ import MapView from '../components/MapView'
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
+  setMapCenter,
   setMapDefault,
   setMapZoom,
   findStationsPoint,
   findStationsPostCode,
+  centerToPosition,
+  mapClick,
+  getUserPos,
+  onSearchOptChange,
+  setZipSearch
 }
 
 const mapStateToProps = (state) => (state.map)

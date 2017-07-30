@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Drawer from 'material-ui/Drawer'
 import SidebarLink from './SidebarLink'
-import IconButton from 'material-ui/RaisedButton'
+import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
 import AppBar from 'material-ui/AppBar'
 import { IndexLink } from 'react-router'
@@ -16,15 +16,25 @@ class Sidebar extends React.Component {
     super(props)
     this.state = { open: true }
     this.handleToggle = this.handleToggle.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+    this.renderMenuItems = this.renderMenuItems.bind(this)
   }
 
-  handleToggle = () => this.setState({ open: !this.state.open })
-  handleClose = () => this.setState({ open: false })
+  handleToggle () { this.setState({ open: !this.state.open }) }
+  handleClose () { this.setState({ open: false }) }
 
   shouldComponentUpdate (nextProps, nextState) {
     return nextState.open !== this.state.open
   }
-
+  renderMenuItems () {
+    return this.props.routes.map((route, ind) => (
+      <SidebarLink
+        key={ind}
+        label={route.name}
+        active={route.active}
+        onTouchTap={this.handleClose} />
+    ))
+  }
   render () {
     return (
       <div>
@@ -38,9 +48,7 @@ class Sidebar extends React.Component {
             <MenuItem>Home</MenuItem>
           </IndexLink>
           {
-            this.props.routes.map((route, ind) => (
-              <SidebarLink key={ind} label={route.name} active={route.active} onTouchTap={this.handleClose} />
-            ))
+            this.renderMenuItems()
           }
         </Drawer>
       </div>

@@ -26,6 +26,7 @@
     "express": "^4.14.0",
     "google-map-react": "^0.24.0",
     "material-ui": "^0.18.5",
+    "mdi": "^2.0.46",
     "mongoose": "^4.11.3",
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",
