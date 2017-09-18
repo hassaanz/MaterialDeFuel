@@ -35,4 +35,10 @@ module.exports = {
     type: 'mongo',
     connection: 'mongodb://localhost/test'
   },
+  apiServer: {
+    port: 3030
+  },
+  /** Tankerkoenig API key */
+  tankerkoenigKey: '',
+  tankerkoenigTestMode: false,
 }

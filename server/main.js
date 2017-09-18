@@ -5,8 +5,9 @@ const logger = require('../build/lib/logger')
 const webpackConfig = require('../build/webpack.config')
 const project = require('../project.config')
 const compress = require('compression')
-
 const apiRouter = require('./api')
+var cookieParser = require('cookie-parser')
+var bodyParser = require('body-parser')
 
 const app = express()
 app.use(compress())
@@ -16,6 +17,11 @@ app.use(compress())
 // ------------------------------------
 if (project.env === 'development') {
   const compiler = webpack(webpackConfig)
+
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(cookieParser())
+  app.use('/api', apiRouter)
 
   logger.info('Enabling webpack development and HMR middleware')
   app.use(require('webpack-dev-middleware')(compiler, {
@@ -37,7 +43,6 @@ if (project.env === 'development') {
   // when the application is compiled.
   app.use(express.static(path.resolve(project.basePath, 'public')))
 
-  app.use('/api', apiRouter)
   // This rewrites all routes requests to the root /index.html file
   // (ignoring file requests). If you want to implement universal
   // rendering, you'll want to remove this middleware.

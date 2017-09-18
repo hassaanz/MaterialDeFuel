@@ -13,7 +13,7 @@ function circularSearch (searchObj) {
     const err = new Error({
       error: {
         msg: 'Invalid searchObj',
-        code: '901',
+        code: 901,
         ref: 'circularSearch'
       }
     })
@@ -24,6 +24,20 @@ function circularSearch (searchObj) {
   )
 }
 
+function priceInquiry (stationIds) {
+  if (!Array.isArray(stationIds)) {
+    const err = new Error({
+      error: {
+        msg: 'Station Ids must be an array',
+        code: 902,
+        ref: 'priceInquiry'
+      }
+    })
+    return Promise.reject(err)
+  }
+  return axios.get(`${apiBaseUrl}prices.php?ids=${stationIds.join(',')}&apiKey=${apiKey}`)
+}
 module.exports = {
   circularSearch: circularSearch,
+  priceInquiry: priceInquiry
 }

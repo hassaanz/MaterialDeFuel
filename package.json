@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-starter-kit",
-  "version": "3.0.1",
-  "description": "Get started with React, Redux, and React-Router!",
+  "name": "material-de-fuel",
+  "version": "0.0.1",
+  "description": "Search for fuel prices across Germany!",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
@@ -15,20 +15,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/hassaanz/MaterialDeFuel.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": "Hassaan Zaidi <hassaanz@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.17.2",
     "bootstrap": "^4.0.0-alpha",
     "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "express-session": "^1.15.5",
     "google-map-react": "^0.24.0",
     "material-ui": "^0.18.5",
     "mdi": "^2.0.46",
     "mongoose": "^4.11.3",
     "object-assign": "^4.1.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "promise": "^7.1.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",

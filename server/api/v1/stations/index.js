@@ -41,7 +41,7 @@ stationsRouter.get('/', (req, res, next) => {
   const postCode = req.query.postCode
   const sortVal = req.query.sort
   const grade = req.query.grade
-
+  console.log('GET /api/v1/stations/', lng, lat, dist)
   if (lng && lat && dist) {
     StationCtrl.getStationByLocation({ lng: lng, lat: lat }, dist, { grade: grade, sortVal: sortVal })
     .then((stations) => {
@@ -63,7 +63,7 @@ stationsRouter.get('/', (req, res, next) => {
       error: {
         msg: 'INV_REQ',
         obj: {
-          message: 'No Postcode of location information in request specified',
+          message: 'No Postcode or location information in request specified',
           ref: 'GET /stations/'
         }
       }

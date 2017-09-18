@@ -74,24 +74,25 @@ StationSchema.statics.fromObj = function (stationObj) {
  * @param {Number} radius The radius distance for the search in kilometers
  */
 StationSchema.statics.findAround = function (pointObj, radius) {
-  console.log('In findAround:', pointObj, radius)
   radius = radius || 8
   // we need to convert the distance to metres
   const metreDistance = radius * 1000
   if (pointObj && pointObj.lng && pointObj.lat) {
-    console.log('Seraching for point:', pointObj, Station.find, this)
-
-    return Station.find({
+    const findProm = Station.find({
       loc: {
         $near: {
           $geometry: {
             type: 'Point',
-            coordinates: [pointObj.lng, pointObj.lat],
+            coordinates: [+pointObj.lng, +pointObj.lat],
           },
         },
-        $maxDistance: metreDistance
+        $maxDistance: +metreDistance
       }
+    }).then((stations) => {
+      console.log('Query Res:', stations)
+      return Promise.resolve(stations)
     })
+    return findProm
   } else {
     return Promise.reject(new Error('Invalid Point object'))
   }

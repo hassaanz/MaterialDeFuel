@@ -4,8 +4,8 @@ const config = require('../../project.config')
 function connectData () {
   if (config.db) {
     if (config.db.type === 'mongo') {
-      mongoose.Promise = global.Promise
-      return mongoose.createConnection('mongodb://localhost/test', {
+      mongoose.Promise = Promise
+      return mongoose.createConnection('mongodb://localhost/tanker', {
         poolSize: 4,
         useMongoClient: true,
       })
